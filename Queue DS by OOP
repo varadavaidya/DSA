@@ -1,0 +1,15 @@
+class Queue(object):
+    def __init__(self):
+        self.list=[]
+
+    def push(self,element):
+        self.list.append(element)
+        return self.list
+
+    def pop(self):
+        k=len(self.list)-1
+        self.list=self.list[0:k]
+        return self.list
+
+    def display(self):
+        print(self.list)
