@@ -110,21 +110,25 @@ class LinkedList:                           # adding one node to an empty List w
         self.length -=1
 
     def remove(self,element):
-        temp_node1=self.head
-        temp_node2=temp_node1.next
-        temp_node3=temp_node2.next
-        for _ in range((self.length)-1):
-            if temp_node2.value!=element:
-                temp_node1=temp_node2
-                temp_node2=temp_node1.next
-                temp_node3=temp_node2.next
-            else:
-                temp_node1.next=temp_node3
+        if self.head.value==element:
+            self.head=self.head.next
+        else:
+            temp_node1=self.head
+            temp_node2=temp_node1.next
+            temp_node3=temp_node2.next
+            for _ in range((self.length)-1):
+                if temp_node2.value!=element:
+                    temp_node1=temp_node2
+                    temp_node2=temp_node1.next
+                    temp_node3=temp_node2.next
+                else:
+                    temp_node1.next=temp_node3
+            self.length-=1
 
     def delete(self):
-        temp_node=self.head
-        for _ in range(self.length):
-            self.head=temp_node.next
+        self.head=None
+        self.tail=None
+        self.length=0
 
     def __str__(self):
         temp_node=self.head
@@ -136,3 +140,58 @@ class LinkedList:                           # adding one node to an empty List w
             temp_node=temp_node.next
         return result
 
+
+
+new_linked_list=LinkedList()
+new_linked_list.append(10)
+new_linked_list.append(20)
+new_linked_list.append(30)
+new_linked_list.append(40)
+new_linked_list.append(50)
+print(new_linked_list.head.value)
+print(new_linked_list.tail.value)
+print(new_linked_list.length)
+print(new_linked_list)
+
+new_linked_list.prepend(60)
+print(new_linked_list)
+
+another_LL=LinkedList()
+another_LL.prepend(20)
+print(another_LL)
+print(new_linked_list)
+print(new_linked_list.length)
+
+new_linked_list.insert(90, 0)
+new_linked_list.insert(800,6)
+print(new_linked_list)
+print(new_linked_list.search(90))
+print(new_linked_list.search(10))
+print(new_linked_list.search(850))
+print(new_linked_list)
+new_linked_list.traverse()
+print(new_linked_list)
+print(new_linked_list.get(7))
+print(new_linked_list)
+new_linked_list.set(799,5)
+print(new_linked_list)
+print(new_linked_list.length)
+new_linked_list.pop()
+print(new_linked_list)
+print(new_linked_list.length)
+print(new_linked_list.get(7))
+print(new_linked_list.length)
+print(new_linked_list)
+new_linked_list.append(101)
+new_linked_list.append(102)
+new_linked_list.append(103)
+print(new_linked_list)
+new_linked_list.remove(101)
+print(new_linked_list)
+new_linked_list.remove(None)
+print(new_linked_list)
+new_linked_list.remove(90)
+print(new_linked_list)
+print(new_linked_list.delete())
+print(new_linked_list.length)
+print(new_linked_list.tail)
