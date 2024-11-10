@@ -125,6 +125,37 @@ class LinkedList:                           # adding one node to an empty List w
                     temp_node1.next=temp_node3
             self.length-=1
 
+    def find_middle(self):
+        if self.length%2!=0:
+            current=self.head
+            for _ in range(int((self.length+1)/2)-1):
+                current=current.next
+            return current
+        else:
+            current = self.head
+            for _ in range(int(self.length/2)):
+                current=current.next
+            return current
+
+    def delete(self, index):
+        current = self.head
+        current1 = current.next
+        current2 = current1.next
+        if index < 0 or index >= self.length:
+            return None
+        if index == 0:
+            self.head = current.next
+            self.length -= 1
+        elif index==1:
+            current.next = current2
+        else:
+            for _ in range(index-1):
+                current=current1
+                current1=current2
+                current2=current2.next
+            current.next=current2
+            self.length -= 1
+
     def delete(self):
         self.head=None
         self.tail=None
