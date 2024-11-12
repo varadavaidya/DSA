@@ -1,0 +1,220 @@
+class Node(object):
+    def __init__(self,value):
+        self.value=value
+        self.prev=None
+        self.next=None
+
+    def __str__(self):
+        return f"<=| {self.value} |=>"
+
+class CircularDoublyLinkedList(object):
+    def __init__(self,value):
+        new_node=Node(value)
+        self.head=new_node
+        self.tail=new_node
+        self.tail.next=self.head
+        self.head.prev=self.tail
+        self.length=1
+
+    def append(self,value):
+        new_node=Node(value)
+        self.tail.next=new_node
+        new_node.prev=self.tail
+        self.tail=new_node
+        new_node.next=self.head
+        self.head.prev=self.tail
+        self.length+=1
+
+    def prepend(self,value):
+        new_node=Node(value)
+        self.head.prev=new_node
+        new_node.next=self.head
+        self.head=new_node
+        self.head.prev=self.tail
+        self.tail.next=self.head
+        self.length+=1
+
+    def traverse(self):
+        current_node=self.head.prev
+        for _ in range(self.length):
+            current_node=current_node.next
+            print(current_node.value)
+
+    def reversetraverse(self):
+        current_node=self.tail.next
+        for _ in range(self.length):
+            current_node=current_node.prev
+            print(current_node.value)
+
+    def search(self,value):
+        current_node=self.head
+        index=0
+        if self.head.value==value:
+            print(index)
+        else:
+            for _ in range(self.length):
+                current_node=current_node.next
+                index+=1
+                if current_node.value==value:
+                    print(index)
+
+    def get(self,index):
+        if index<0 or index>=self.length:
+            print("Index out of range.")
+        else:
+            current_node=self.head
+            for _ in range(index):
+                current_node=current_node.next
+            print(current_node.value)
+
+    def popfirst(self):
+        current_node=self.head.next
+        self.tail.next=current_node
+        current_node.prev=self.tail
+        self.head=current_node
+        self.length-=1
+
+    def pop(self):
+        prev_node=self.tail.prev
+        current_node=prev_node.next
+        prev_node.next=self.head
+        self.head.prev=prev_node
+        self.tail=prev_node
+        current_node=None
+        self.length-=1
+
+
+    def set(self,value,index):
+        current_node=self.head
+        if index==0:
+            self.head.value=value
+        if index<0 or index>=self.length:
+            print("Index out of range")
+        else:
+            for _ in range(index):
+                current_node=current_node.next
+            current_node.value=value
+
+    def remove(self,index):
+        prev_node=self.head.prev
+        current_node=prev_node.next
+        if index<0 or index>=self.length:
+            print("Index out of range")
+        elif index==0:
+            self.popfirst()
+        else:
+            for _ in range(index):
+                prev_node=prev_node.next
+                current_node=current_node.next
+            prev_node.next=current_node.next
+            current_node.next.prev=prev_node
+            self.length-=1
+
+    def delete(self):
+        for _ in range(self.length):
+            self.popfirst()
+        current_node=self.head
+        self.head=None
+        self.tail=None
+        current_node=None
+        self.length-=1
+
+    def insert(self,value,index):
+        new_node=Node(value)
+        prev_node=self.head.prev
+        current_node=prev_node.next
+        if index>=self.length or index<0:
+            print("Index out of range.")
+        elif index==0:
+            self.prepend(value)
+        else:
+            for _ in range(index):
+                prev_node=prev_node.next
+                current_node=current_node.next
+            prev_node.next=new_node
+            new_node.prev=prev_node
+            new_node.next=current_node
+            current_node.prev=new_node
+            self.length+=1
+
+
+    def __str__(self):
+        current_node=self.head
+        result=f"{current_node}"
+        if self.head==None:
+            return f"<=| {self.head} |=>"
+        if self.length==1:
+            print(current_node)
+        else:
+            for _ in range(self.length):
+                current_node=current_node.next
+                result= result +f"{current_node}"
+        return result
+
+
+new_node=Node(10)
+print(new_node)
+cdlinkedlist=CircularDoublyLinkedList(20)
+print(cdlinkedlist)
+print(cdlinkedlist.head.value)
+cdlinkedlist.append(25)
+print(cdlinkedlist)
+print(cdlinkedlist.tail.value)
+print(cdlinkedlist.tail.next.value)
+print(cdlinkedlist.length)
+cdlinkedlist.append(30)
+print(cdlinkedlist)
+print(cdlinkedlist.tail.value)
+print(cdlinkedlist.tail.next.value)
+print(cdlinkedlist.head.prev.value)
+print(cdlinkedlist.length)
+cdlinkedlist.append(35)
+print(cdlinkedlist)
+print(cdlinkedlist.tail.value)
+print(cdlinkedlist.tail.next.value)
+print(cdlinkedlist.head.prev.value)
+print(cdlinkedlist.length)
+cdlinkedlist.append(40)
+print(cdlinkedlist)
+print(cdlinkedlist.tail.value)
+print(cdlinkedlist.tail.next.value)
+print(cdlinkedlist.head.prev.value)
+print(cdlinkedlist.length)
+cdlinkedlist.prepend(45)
+print(cdlinkedlist)
+print(cdlinkedlist.tail.value)
+print(cdlinkedlist.tail.next.value)
+print(cdlinkedlist.head.prev.value)
+print(cdlinkedlist.length)
+cdlinkedlist.traverse()
+print(cdlinkedlist)
+print(cdlinkedlist.length)
+cdlinkedlist.reversetraverse()
+cdlinkedlist.search(45)
+cdlinkedlist.search(40)
+cdlinkedlist.get(0)
+cdlinkedlist.get(5)
+cdlinkedlist.get(6)
+cdlinkedlist.set(22,0)
+print(cdlinkedlist)
+cdlinkedlist.set(101,5)
+print(cdlinkedlist)
+cdlinkedlist.set(1947,4)
+print(cdlinkedlist)
+cdlinkedlist.insert(1993,0)
+print(cdlinkedlist)
+cdlinkedlist.insert(1996,9)
+print(cdlinkedlist)
+cdlinkedlist.popfirst()
+print(cdlinkedlist)
+cdlinkedlist.pop()
+print(cdlinkedlist)
+cdlinkedlist.append(1)
+cdlinkedlist.insert(9,2)
+print(cdlinkedlist)
+cdlinkedlist.remove(0)
+print(cdlinkedlist)
+cdlinkedlist.remove(7)
+print(cdlinkedlist)
+cdlinkedlist.delete()
+print(cdlinkedlist)
