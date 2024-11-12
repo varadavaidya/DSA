@@ -1,0 +1,55 @@
+class Stack(object):
+    def __init__(self,limit):
+        self.list=[]
+        self.limit=limit
+
+    def push(self,value):
+        if len(self.list)<=self.limit-1:
+            self.list.append(value)
+        else:
+            print("stack is full")
+
+    def pop(self):
+        self.list.pop()
+
+    def peek(self):
+        print(self.list[-1])
+
+    def isEmpty(self):
+        if len(self.list)==0:
+            print(True)
+        else:
+            print(False)
+
+    def isFull(self):
+        if len(self.list)==self.limit:
+            print(True)
+        else:
+            print(False)
+
+    def delete(self):
+        k=len(self.list)
+        for _ in range(k):
+            self.list.pop()
+
+    def __str__(self):
+        if len(self.list)==0:
+            return "No element to print."
+        else:
+            stack=''
+            for i in range(len(self.list)):
+                stack= f" \n |{self.list[i]}|"+stack
+            return str(stack)
+
+
+
+new_stack=Stack(6)
+new_stack.push(1)
+new_stack.push(2)
+new_stack.push(3)
+new_stack.push(4)
+new_stack.push(5)
+new_stack.push(6)
+print(new_stack)
+new_stack.push(7)
+new_stack[3]=39
