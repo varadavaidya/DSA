@@ -1,0 +1,87 @@
+class Node(object):
+    def __init__(self,value):
+        self.value=value
+        self.next=None
+
+class StaclLinkedList(object):
+    def __init__(self,limit):
+        self.head=None
+        self.tail=None
+        self.limit=limit
+        self.length=0
+
+    def push(self,value):
+        new_node = Node(value)
+        if self.length<self.limit:
+            if self.length==0:
+                self.head=new_node
+                self.tail=new_node
+                self.length+=1
+            else:
+                self.tail.next=new_node
+                self.tail=new_node
+                self.length+=1
+        else:
+            print("Out of limits.")
+
+    def pop(self):
+        current_node=self.head
+        for _ in range(self.length-2):
+            current_node=current_node.next
+        current_node.next=None
+        self.tail=current_node
+        self.length-=1
+
+    def peek(self):
+        print(self.tail.value)
+
+    def isEmpty(self):
+        if self.length==0:
+            print(True)
+        else:
+            print(False)
+
+    def isFull(self):
+        if self.length==self.limit:
+            print(True)
+        else:
+            print(False)
+
+    def delete(self):
+        self.head=None
+        self.tail=None
+        self.length=0
+
+    def __str__(self):
+        current_node=self.head
+        stack=''
+        for _ in range(self.length):
+            stack= stack+f"\n {current_node.value}"
+            current_node=current_node.next
+        return stack
+
+
+
+
+
+stacklist=StaclLinkedList(6)
+stacklist.push(1)
+stacklist.push(2)
+stacklist.push(3)
+stacklist.push(4)
+stacklist.push(5)
+stacklist.push(6)
+stacklist.peek()
+print(stacklist)
+stacklist.isFull()
+stacklist.push(7)
+stacklist.peek()
+stacklist.isFull()
+print(stacklist)
+stacklist.push(8)
+stacklist.isFull()
+stacklist.pop()
+print(stacklist)
+stacklist.head.value=30
+stacklist.delete()
+print(stacklist.head)
