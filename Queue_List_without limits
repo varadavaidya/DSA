@@ -19,6 +19,9 @@ class Queue(object):
         else:
             return False
 
+    def peek(self):
+        return self.list[0]
+
     def delete(self):
         for _ in range(self.length):
             self.list.pop()
