@@ -1,0 +1,58 @@
+class Queue(object):
+    def __init__(self,limit):
+        self.list=[]
+        self.limit=limit
+        self.length=0
+
+    def enqueue(self,value):
+        if self.length<self.limit:
+            self.list.append(value)
+            self.length+=1
+        else:
+            print("Size of list is out of limits")
+
+    def dequeue(self):
+        self.list.reverse()
+        self.list.pop()
+        self.list.reverse()
+        self.length-=1
+
+    def isEmpty(self):
+        if self.length==0:
+            return True
+        else:
+            return False
+
+    def delete(self):
+        for _ in range(self.length):
+            self.list.pop()
+
+    def __str__(self):
+        result=''
+        for x in self.list:
+            result = f"---> {x}"+result
+        return result
+
+
+custom_queue=Queue(6)
+print(custom_queue.isEmpty())
+custom_queue.enqueue(10)
+custom_queue.enqueue(20)
+custom_queue.enqueue(30)
+custom_queue.enqueue(40)
+print(custom_queue)
+print(custom_queue.isEmpty())
+custom_queue.enqueue(50)
+custom_queue.enqueue(60)
+print(custom_queue)
+custom_queue.enqueue(70)
+print(custom_queue)
+custom_queue.enqueue(80)
+print(custom_queue.length)
+custom_queue.dequeue()
+print(custom_queue)
+print(custom_queue.length)
+custom_queue.delete()
+print(custom_queue)
+custom_queue.enqueue(10)
+print(custom_queue)
