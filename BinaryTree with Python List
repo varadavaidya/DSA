@@ -1,0 +1,113 @@
+class BinaryTree:
+    def __init__(self,size):
+        self.customList=size*[None]
+        self.lastUsedIndex=0
+        self.maxSize=size
+
+    def insert(self,value):
+        if self.customList[self.maxSize-1] is not None:
+            return "The tree is full"
+        else:
+            if self.customList[self.lastUsedIndex+1] is None:
+                self.customList[self.lastUsedIndex+1]=value
+                self.lastUsedIndex+=1
+
+    def getLeftChild(self,value):
+        m=self.customList.index(value)
+        if 2*m <=self.maxSize:
+            return self.customList[2*m]
+        else:
+            return "No left child to the given node"
+
+    def getRightChild(self,value):
+        m=self.customList.index(value)
+        if 2*m+1<=self.maxSize:
+            return self.customList[2*m+1]
+        else:
+            return 'No right child to the given node'
+
+    def search(self,value):
+        index=1
+        for _ in range(self.maxSize):
+            if index%2==0 and index<=self.lastUsedIndex:
+                if self.customList[index]==value:
+                    return f"Node exists at {index} and is left child of |{self.customList[int(index/2)]}| "
+                else:
+                    index+=1
+            if index%2!=0 and index<=self.lastUsedIndex:
+                if self.customList[index]==value:
+                    return f"Node exists at {index} and is right child of |{self.customList[int((index-1)/2)]}|"
+                else:
+                    index+=1
+            else:
+                return "No such node"
+
+    def preOrderTraversal(self,index):
+        if index >self.lastUsedIndex:
+            return
+        print(self.customList[index])
+        self.preOrderTraversal(index*2)
+        self.preOrderTraversal(index*2 + 1)
+
+    def inOrderTraversal(self,index):
+        if index>self.lastUsedIndex:
+            return
+        self.inOrderTraversal(2*index)
+        print(self.customList[index])
+        self.inOrderTraversal(2*index+1)
+
+    def postOrderTraversal(self,index):
+        if index>self.lastUsedIndex:
+            return
+        self.postOrderTraversal(2*index)
+        self.postOrderTraversal(2*index+1)
+        print(self.customList[index])
+
+    def levelOrderTraversal(self,index):
+        for x in self.customList[index:self.lastUsedIndex+1]:
+            print(x)
+
+    def deleteNode(self,value):
+        index=self.customList.index(value)
+        self.customList[index]=self.customList[self.lastUsedIndex]
+        self.customList[self.lastUsedIndex]=None
+        self.lastUsedIndex-=1
+
+    def deleteTree(self,index):
+        index=1
+        for _ in range(self.lastUsedIndex):
+            self.customList[index]=None
+            self.lastUsedIndex-=1
+            index+=1
+
+    def __str__(self):
+        return str(self.customList)
+
+
+
+
+new_listBT=BinaryTree(8)
+print(new_listBT)
+new_listBT.insert(1)
+new_listBT.insert(2)
+new_listBT.insert(3)
+new_listBT.insert(4)
+new_listBT.insert(5)
+new_listBT.insert(6)
+new_listBT.insert(7)
+print(new_listBT)
+print(new_listBT.search(2))
+print(new_listBT.search(9))
+new_listBT.preOrderTraversal(1)
+print('.......')
+new_listBT.inOrderTraversal(1)
+print('.......')
+new_listBT.postOrderTraversal(1)
+print('.......')
+new_listBT.levelOrderTraversal(1)
+print("........")
+new_listBT.deleteNode(5)
+new_listBT.levelOrderTraversal(1)
+new_listBT.deleteTree(1)
+print("........")
+new_listBT.levelOrderTraversal(1)
