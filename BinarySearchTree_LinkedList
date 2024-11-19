@@ -1,0 +1,107 @@
+import QueueLinkedList as queue
+from queue import Queue
+class BSTNode(object):
+    def __init__(self,value):
+        self.value=value
+        self.leftChild=None
+        self.rightChild=None
+
+def insertNode(rootNode,value):
+    new_node=BSTNode(value)
+    if value <= rootNode.value:
+        if rootNode.leftChild is None:
+            rootNode.leftChild=new_node
+        else:
+            insertNode(rootNode.leftChild,value)
+    elif value>rootNode.value:
+        if rootNode.rightChild is None:
+            rootNode.rightChild=new_node
+        else:
+            insertNode(rootNode.leftChild,value)
+
+
+def preOrderTraversal(rootNode):
+    if rootNode==None:
+        return
+    else:
+        print(rootNode.value)
+        preOrderTraversal(rootNode.leftChild)
+        preOrderTraversal(rootNode.rightChild)
+def levelOrderTraversal(rootNode):
+    if not(rootNode):
+        return
+    else:
+        custom_queue=queue.Queue()
+        custom_queue.enqueue(rootNode)
+        while not(custom_queue.isEmpty()):
+            root=custom_queue.dequeue()
+            print(root.value.value)
+            if root.value.leftChild is not None:
+                custom_queue.enqueue(root.value.leftChild)
+            if root.value.rightChild is not None:
+                custom_queue.enqueue(root.value.rightChild)
+
+def search(rootNode,value):            ####you have implemented with O(N)...it can be done in O(logN)
+    if not(rootNode):
+        return "No such node exists"
+    else:
+        custom_queue=queue.Queue()
+        custom_queue.enqueue(rootNode)
+        while not(custom_queue.isEmpty()):
+            root=custom_queue.dequeue()
+            if root.value.leftChild.value==value:
+                return root.value.leftChild,"Node found!"
+            elif root.value.rightChild.value==value:
+                return root.value.rightChild,"Node found!"
+            elif root.value.leftChild.value is None:
+                custom_queue.enqueue(root.value.leftChild)
+            elif root.value.rightChild.value is None:
+                custom_queue.enqueue(root.value.rightChild)
+        return "No such node exists."
+
+def smallestNode_inRightSubtree(rootNode):          #-------->O(logN)
+    if not(rootNode):
+        return
+    else:
+        custom_queue=queue.Queue()
+        custom_queue.enqueue(rootNode.rightChild)
+        while not(custom_queue.isEmpty()):
+            root=custom_queue.dequeue()
+            if root.value.leftChild is not None:
+                custom_queue.enqueue(root.value.leftChild)
+        return root.value
+
+def deleteBST(rootNode):
+    rootNode.leftChild=None
+    rootNode.rightChild=None
+    rootNode.value = None
+    return "Tree deleted"
+
+def deleteNode(rootNode,value):
+    del_node=search(rootNode,value)[0]
+    deep_node=smallestNode_inRightSubtree(rootNode)
+    del_node.value=deep_node.value
+    deep_node.value='None'
+
+
+new_BST=BSTNode(70)
+print(new_BST.value)
+insertNode(new_BST,20)
+preOrderTraversal(new_BST)
+insertNode(new_BST,80)
+print(insertNode(new_BST,90))
+preOrderTraversal(new_BST)
+print("......")
+levelOrderTraversal(new_BST)
+print(search(new_BST,300))
+print(smallestNode_inRightSubtree(new_BST).value)
+deleteNode(new_BST,80)
+print("...........n")
+print(search(new_BST,80)[0])
+print("........m")
+print(smallestNode_inRightSubtree(new_BST).value)
+print(".........k")
+preOrderTraversal(new_BST)
+print("........g.g")
+deleteBST(new_BST)
+preOrderTraversal(new_BST)
