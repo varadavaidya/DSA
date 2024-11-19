@@ -1,0 +1,176 @@
+import QueueLinkedList as queue
+from queue import Queue
+
+class AVLNode:
+    def __init__(self,value):
+        self.value=value
+        self.rightChild=None
+        self.leftChild=None
+        self.height=1
+
+def preOrderTraversal(rootNode):
+    if not(rootNode):
+        return
+    else:
+        print(rootNode.value)
+        preOrderTraversal(rootNode.leftChild)
+        preOrderTraversal(rootNode.rightChild)
+
+def postOrderTraversal(rootNode):
+    if not(rootNode):
+        return
+    else:
+        postOrderTraversal(rootNode.leftChild)
+        postOrderTraversal(rootNode.rightChild)
+        print(rootNode.value)
+
+def inOrderTraversal(rootNode):
+    if not(rootNode):
+        return
+    else:
+        inOrderTraversal(rootNode.leftChild)
+        print(rootNode.value)
+        inOrderTraversal(rootNode.rightChild)
+
+def levelOrderTraversal(rootNode):
+    if not(rootNode):
+        return
+    else:
+        custom_queue=queue.Queue()
+        custom_queue.enqueue(rootNode)
+        while not(custom_queue.isEmpty()):
+            root=custom_queue.dequeue()
+            print(root.value.value)
+            if root.value.leftChild is not None:
+                custom_queue.enqueue(root.value.leftChild)
+            if root.value.rightChild is not None:
+                custom_queue.enqueue(root.value.rightChild)
+
+def searchNode(rootNode,value):
+    node=AVLNode(value)
+    if not(rootNode):
+        return
+    else:
+        custom_queue=queue.Queue()
+        custom_queue.enqueue(rootNode)
+        while not(custom_queue.isEmpty()):
+            root=custom_queue.dequeue()
+            if root.value.value==node.value:
+                return root.value,"NodeFound"
+            if root.value.value<value:
+                custom_queue.enqueue(root.value.rightChild)
+            if root.value.value> value:
+                custom_queue.enqueue(root.value.leftChild)
+        return "Node not found"
+
+def getHeight(rootNode):
+    if not(rootNode):
+        return 0
+    else:
+        return rootNode.height
+
+def rightRotation(disbalancedNode):
+    new_root=disbalancedNode.leftChild
+    disbalancedNode.leftChild=disbalancedNode.leftChild.rightChild
+    new_root.rightChild=disbalancedNode
+    disbalancedNode.height=1+max(getHeight(disbalancedNode.leftChild),getHeight(disbalancedNode.rightChild))
+    new_root.height=1+max(getHeight(new_root.leftChild),getHeight(new_root.rightChild))
+    return new_root
+
+def leftRotation(disbalancedNode):
+    new_root=disbalancedNode.rightChild
+    disbalancedNode.rightChild=disbalancedNode.rightChild.leftChild
+    new_root.leftChild=disbalancedNode
+    disbalancedNode.height=1+max(getHeight(disbalancedNode.rightChild),getHeight(disbalancedNode.leftChild))
+    new_root.height=1+max(getHeight(new_root.rightChild),getHeight(new_root.leftChild))
+
+def getBalance(rootNode):
+    if not(rootNode):
+        return 0
+    else:
+        return getHeight(rootNode.leftChild)-getHeight(rootNode.rightChild)
+
+def insertNode(rootNode,nodeValue):
+    if not(rootNode):
+        return AVLNode(nodeValue)
+    elif nodeValue< rootNode.value:
+        rootNode.leftChild=insertNode(rootNode.leftChild,nodeValue)
+    else:
+        rootNode.rightChild=insertNode(rootNode.rightChild,nodeValue)
+    rootNode.height=1+max(getHeight(rootNode.leftChild),getHeight(rootNode.rightChild))
+    balance=getBalance(rootNode)
+    if balance>1 and nodeValue<rootNode.leftChild.value: ##left-left condition and needs right rotation
+        return rightRotation(rootNode)
+    if balance>1 and nodeValue>rootNode.leftChild.value:##left-right condition and needs left and right rotation
+        rootNode.leftChild=leftRotation(rootNode.leftChild)
+        return rightRotation(rootNode)
+    if balance<-1 and nodeValue>rootNode.rightChild.value:##right-right condition and needs left rotation
+        return leftRotation(rootNode)
+    if balance<-1 and nodeValue<rootNode.rightChild.value:##right-left condition and needs right and left rotation
+        rootNode.rightChild=rightRotation(rootNode.rightChild)
+        return leftRotation(rootNode)
+    return rootNode
+
+def getMinValueNode(rootNode):
+    if rootNode is None or rootNode.leftChild is None:
+        return rootNode
+    return getMinValueNode(rootNode.leftChild)
+
+def deleteNode(rootNode,nodeValue):
+    if not(rootNode):
+        return rootNode
+    elif nodeValue<rootNode.value:
+        rootNode.leftChild=deleteNode(rootNode.leftChild,nodeValue)
+    elif nodeValue>rootNode.value:
+        rootNode.rightChild=deleteNode(rootNode.rightChild,nodeValue)
+    else:
+        if rootNode.leftChild is None:
+            temp=rootNode.rightChild
+            rootNode=None
+            return temp
+        elif rootNode.rightChild is None:
+            temp=rootNode.leftChild
+            rootNode=None
+            return temp
+        temp= getMinValueNode(rootNode.rightChild)
+        rootNode.value=temp.value
+        rootNode.rightChild=deleteNode(rootNode.rightChild,temp.value)
+    balance=getBalance(rootNode)
+    if balance>1 and getBalance(rootNode.leftChild)>=0:
+        return rightRotation(rootNode)
+    if balance<-1 and getBalance(rootNode.rightChild)<=0:
+        return leftRotation(rootNode)
+    if balance>1 and getBalance(rootNode.leftChild)<0:
+        rootNode.leftChild=leftRotation(rootNode.leftChild)
+        return rightRotation(rootNode)
+    if balance<-1 and getBalance(rootNode.rightChild)>0:
+        rootNode.rightChild=rightRotation(rootNode.rightChild)
+        return leftRotation(rootNode)
+    return rootNode
+
+def deleteAVL(rootNode):
+    if not(rootNode):
+        return
+    else:
+        rootNode.value=None
+        rootNode.rightChild=None
+        rootNode.leftChild=None
+
+
+
+
+
+new_AVLTree=AVLNode(10)
+insertNode(new_AVLTree,15)
+insertNode(new_AVLTree,20)
+insertNode(new_AVLTree,25)
+insertNode(new_AVLTree,12)
+insertNode(new_AVLTree,8)
+levelOrderTraversal(new_AVLTree)
+print(searchNode(new_AVLTree,10)[1])
+print(searchNode(new_AVLTree,8)[1])
+deleteNode(new_AVLTree,8)
+levelOrderTraversal(new_AVLTree)
+deleteAVL(new_AVLTree)
+levelOrderTraversal(new_AVLTree)
+
