@@ -1,0 +1,73 @@
+class TrieNode(object):
+    def __init__(self):
+        self.children={}
+        self.endOfString=False
+
+class Trie:
+    def __init__(self):
+        self.root=TrieNode()
+
+    def insertString(self,string):
+        current=self.root
+        for i in string:
+            if i not in current.children:
+                current.children[i]=TrieNode()
+                current.children.update({i:current.children[i]})
+            current=current.children[i]
+        current.endOfString=True
+        '''for i in string:
+            if i not in self.root.children:
+                self.root.children[i]=TrieNode()
+            self.root = self.root.children[i]
+        self.root.endOfString=True'''
+        print("Successfully inserted")
+
+    def searchString(self,word):
+        currentNode=self.root
+        for i in word:
+            node=currentNode.children.get(i)
+            if node==None:
+                return False
+            currentNode=node
+
+        if currentNode.endOfString==True:
+            return True
+        else:
+            return False
+
+def deleteString(root,word,index):
+    char=word[index]
+    currentNode=root.children.get(char)
+    canThisNodeBeDeleted=False
+    if len(currentNode.children)>1:
+        deleteString(currentNode,word,index+1)
+        return False
+    if index==len(word)-1:
+        if len(currentNode.children)>=1:
+            currentNode.endOfString=False
+            return False
+        else:
+            root.children.pop(char)
+            return True
+    if currentNode.endOfString==True:
+        deleteString(currentNode,word,index+1)
+        return False
+
+    canThisNodeBeDeleted=deleteString(currentNode,word,index+1)
+    if canThisNodeBeDeleted==True:
+        root.children.pop(char)
+        return True
+    else:
+        return False
+
+
+custom_trie=Trie()
+custom_trie.insertString("APP")
+custom_trie.insertString("APPLE")
+custom_trie.insertString("APPLICATION")
+custom_trie.insertString("ABROAD")
+print(custom_trie.root.children)
+print(custom_trie.searchString('APPLE'))
+print(custom_trie.searchString('APP'))
+deleteString(custom_trie.root,'APP',0)
+print(custom_trie.searchString('APP'))
