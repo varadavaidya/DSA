@@ -1,0 +1,31 @@
+import math
+
+def BubbleSort(arr):
+    m=len(arr)
+    for i in range(m-1):
+        for j in range(m-i-1):
+            if arr[j]>arr[j+1]:
+                arr[j],arr[j+1]=arr[j+1],arr[j]
+    return arr
+
+
+def BucketSort(arr):
+    n_b=round(math.sqrt(len(arr)))
+    buckets=[]
+    sorted_arr=[]
+    max_value=max(arr)
+    for i in range(n_b):
+        buckets.append([])
+    for x in arr:
+        b_n=math.ceil(x*n_b/max_value)
+        buckets[b_n-1].append(x)
+    for k in buckets:
+        BubbleSort(k)
+    for i in range(n_b):
+        for j in range(len(buckets[i])):
+            sorted_arr.append(buckets[i][j])
+    return sorted_arr
+
+
+arr=[10,8,9,5,4,6,7,1,3,2]
+print(BucketSort(arr))
