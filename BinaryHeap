@@ -1,0 +1,112 @@
+class Heap:
+    def __init__(self,size):
+        self.list=(size+1)*[None]
+        self.heapSize=0
+        self.maxSize=size+1
+
+    def peek(self):
+        if self.list is None:
+            return
+        return self.list[1]
+
+
+    def levelOrderTraversal(self):
+        return self.list
+
+def insertInHeap(heap_arr,value,heapType):
+    if custom_heap.heapSize+1==custom_heap.maxSize:
+        return "Heap is full"
+    else:
+        heap_arr[custom_heap.heapSize+1]=value
+        custom_heap.heapSize+=1
+        heapifyInsertion(heap_arr,custom_heap.heapSize,heapType)
+        return "value is successfully inserted"
+
+def heapifyInsertion(heap_arr,child_index,heapType):
+    if child_index<=1:
+        return
+    else:
+        if heapType=='Min':
+            parent_index=int(child_index/2)
+            if heap_arr[parent_index]>heap_arr[child_index]:
+                heap_arr[parent_index],heap_arr[child_index]=heap_arr[child_index],heap_arr[parent_index]
+            heapifyInsertion(heap_arr,parent_index,heapType)
+        elif heapType=='Max':
+            parent_index=int(child_index/2)
+            if heap_arr[parent_index]<heap_arr[child_index]:
+                heap_arr[parent_index],heap_arr[child_index]=heap_arr[child_index],heap_arr[parent_index]
+            heapifyInsertion(heap_arr,parent_index,heapType)
+
+def heapExtract(heap_arr,heapType):
+    if custom_heap.heapSize==1:
+        heap_arr[1]=None
+        custom_heap.heapSize=0
+    else:
+        heap_arr[1]=heap_arr[custom_heap.heapSize]
+        heap_arr[custom_heap.heapSize]=None
+        custom_heap.heapSize-=1
+        heapifyExtraction(heap_arr,1,heapType)
+
+def heapifyExtraction(heap_arr,index,heapType):
+    if custom_heap.heapSize<=1:
+        return
+    if 2*index>custom_heap.heapSize:
+        return
+    if 2*index+1>custom_heap.heapSize:
+        if heapType=='Max':
+            if heap_arr[index]<heap_arr[int(2*index)]:
+                heap_arr[index],heap_arr[2*index]=heap_arr[2*index],heap_arr[index]
+            return
+        if heapType=='Min':
+            if heap_arr[index]>heap_arr[int(2*index)]:
+                heap_arr[index],heap_arr[2*index]=heap_arr[2*index],heap_arr[index]
+            return
+    else:
+        if heapType=='Min':
+            left_child_index=int(2*index)
+            right_child_index=int(2*index+1)
+            if heap_arr[index]>heap_arr[left_child_index] or heap_arr[index]>heap_arr[right_child_index]:
+                if heap_arr[left_child_index]>heap_arr[right_child_index]:
+                    heap_arr[index],heap_arr[right_child_index]=heap_arr[right_child_index],heap_arr[index]
+                    heapifyExtraction(heap_arr,right_child_index,heapType)
+                elif heap_arr[right_child_index]>heap_arr[left_child_index]:
+                    heap_arr[index],heap_arr[left_child_index]=heap_arr[left_child_index],heap_arr[index]
+                    heapifyExtraction(heap_arr,left_child_index,heapType)
+        if heapType=='Max':
+            left_child_index=int(2*index)
+            right_child_index=int(2*index+1)
+            if heap_arr[index]<heap_arr[left_child_index] or heap_arr[index]<heap_arr[right_child_index]:
+                if heap_arr[left_child_index]<heap_arr[right_child_index]:
+                    heap_arr[index],heap_arr[right_child_index]=heap_arr[right_child_index],heap_arr[index]
+                    heapifyExtraction(heap_arr,right_child_index,heapType)
+                elif heap_arr[right_child_index]<heap_arr[left_child_index]:
+                    heap_arr[index],heap_arr[left_child_index]=heap_arr[left_child_index],heap_arr[index]
+                    heapifyExtraction(heap_arr,left_child_index,heapType)
+
+
+
+
+
+custom_heap=Heap(10)
+print(custom_heap.heapSize)
+insertInHeap(custom_heap.list,4,'Max')
+insertInHeap(custom_heap.list,5,'Max')
+insertInHeap(custom_heap.list,2,'Max')
+print(custom_heap.heapSize)
+print(insertInHeap(custom_heap.list,1,'Max'))
+insertInHeap(custom_heap.list,8,'Max')
+insertInHeap(custom_heap.list,20,'Max')
+insertInHeap(custom_heap.list,12,'Max')
+insertInHeap(custom_heap.list,7,'Max')
+
+print(custom_heap.levelOrderTraversal())
+print(custom_heap.heapSize)
+print(custom_heap.levelOrderTraversal())
+
+heapExtract(custom_heap.list,'Max')
+print(custom_heap.levelOrderTraversal())
+print(custom_heap.heapSize)
+heapExtract(custom_heap.list,'Max')
+print(custom_heap.heapSize)
+print(custom_heap.levelOrderTraversal())
+
