@@ -1,0 +1,30 @@
+def binarySearch(arr,num):
+    m=len(arr)
+    if m==1:
+        if arr[0]==num:
+            return 1
+        return-1
+    if m%2==0:
+        index2=int(m/2)#5
+        index1=int((m/2)-1)#4
+        if arr[index1]>=num:
+            if arr[index1]==num:
+                return 1
+            return binarySearch(arr[:index2],num)
+        else:
+            if arr[index2]==num:
+                return 1
+            return binarySearch(arr[index2:],num)
+    elif m%2==1:
+        index=int((m-1)/2)
+        if arr[index]>=num:
+            if arr[index]==num:
+                return 1
+            else:
+                return binarySearch(arr[:index+1],num)
+        else:
+            return binarySearch(arr[index+1:],num)
+
+
+
+print(binarySearch([1,2,3,4,5,6,7,8,9,10],0))
