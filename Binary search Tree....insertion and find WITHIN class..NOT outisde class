@@ -1,0 +1,53 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, data):
+        if (self.root == None):
+            self.root = Node(data)
+        else:
+            self._insert(data, self.root)
+
+    def _insert(self, data, curNode):
+        if (curNode.data > data):
+            if (curNode.left == None):
+                curNode.left = Node(data)
+
+            else:
+                self._insert(data, curNode.left)
+        else:
+            if (curNode.right == None):
+                curNode.right = Node(data)
+            else:
+                self._insert(data, curNode.right)
+
+    def find(self, data):
+        # TODO
+        if self.root.data == data:
+            return self.root
+        else:
+            return self.second_find(self.root,data)
+
+    def second_find(self, current_node, data):
+        if current_node.data < data:
+            if current_node.right is None:
+                return None
+            if current_node.right.data == data:
+                return current_node.right
+            else:
+                return self.second_find(current_node.right, data)
+        if current_node.root.data > data:
+            if current_node.left is None:
+                return None
+            if current_node.left.data == data:
+                return current_node.left
+            else:
+                return self.second_find(current_node.left, data)
+
