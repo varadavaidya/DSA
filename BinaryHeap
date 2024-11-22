@@ -83,7 +83,12 @@ def heapifyExtraction(heap_arr,index,heapType):
                     heap_arr[index],heap_arr[left_child_index]=heap_arr[left_child_index],heap_arr[index]
                     heapifyExtraction(heap_arr,left_child_index,heapType)
 
-
+def heapSort(heap_arr,heapType):
+    result=[]
+    for _ in range(custom_heap.heapSize):
+        result.append(heap_arr[1])
+        heapExtract(heap_arr,heapType)
+    return result
 
 
 
@@ -110,3 +115,4 @@ heapExtract(custom_heap.list,'Max')
 print(custom_heap.heapSize)
 print(custom_heap.levelOrderTraversal())
 
+print(heapSort(custom_heap.list,'Max'))
