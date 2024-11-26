@@ -1,0 +1,79 @@
+from collections import deque
+class Graph:
+    def __init__(self,gdict=None):
+        if gdict is None:
+            gdict=dict()
+        self.gdict=gdict
+
+    def addVertex(self,vertex):
+        if vertex not in self.gdict:
+            self.gdict[vertex]=[]
+            return "New vertex added"
+        return "Vertex already exists"
+
+    def addEdge(self,vertex,edge):
+        if edge not in self.gdict[vertex]:
+            self.gdict[vertex].append(edge)
+        if vertex not in self.gdict[edge]:
+            self.gdict[edge].append(vertex)
+
+    def removeEdge(self,vertex,edge):
+        if edge in self.gdict[vertex]:
+            self.gdict[vertex].remove(edge)
+            self.gdict[edge].remove(vertex)
+        return "No such edge"
+
+    def removeVertex(self,vertex):
+        for x in self.gdict[vertex]:
+            if vertex in self.gdict[x]:
+                self.gdict[x].remove(vertex)
+        self.gdict.pop(vertex)
+
+    def bfs(self,vertex): #.........>O(v+e)
+        visited=set()
+        visited.add(vertex)
+        queue=deque([vertex])
+        while queue: #................>  O(v)
+            current_vertex = queue.popleft()
+            print(current_vertex)
+            for x in self.gdict[current_vertex]: #................   O(e)
+                if x not in visited:
+                    visited.add(x)
+                    queue.append(x)
+        return visited
+
+    def dfs(self,vertex):
+        visited=set()
+        stack=deque([vertex])
+        while stack:
+            current_vertex=stack.pop()
+            if current_vertex not in visited:
+                print(current_vertex)
+                visited.add(current_vertex)
+                for x in self.gdict[current_vertex]:
+                    if x not in visited:
+                        stack.append(x)
+        return visited
+
+
+
+custom_dict={
+              "a":["b","c"],
+              "b":["a","e"],
+              "c":["a","d"],
+              "d":["c","e"],
+              "e":["b","d"],
+              }
+
+custom_graph=Graph(custom_dict)
+print(custom_graph.gdict)
+custom_graph.addEdge("b","c")
+print(custom_graph.gdict)
+custom_graph.removeEdge("b","c")
+print(custom_graph.gdict)
+print(custom_graph.addVertex("a"))
+print(custom_graph.gdict)
+print(".............bfs.............")
+custom_graph.bfs("a")
+print("............dfs...............")
+custom_graph.dfs("a")
