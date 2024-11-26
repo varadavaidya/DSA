@@ -1,0 +1,22 @@
+class MinHeap:
+    def __init__(self, size):
+        self.customList = (size + 1) * [None]
+        self.heapSize = 0
+        self.maxSize = size + 1
+
+
+def insertNode(rootNode, nodeValue):
+    if rootNode.heapSize==rootNode.maxSize-1:
+        return "The Binary Heap is full"
+    else:
+        rootNode.customList[rootNode.heapSize+1]=nodeValue
+        rootNode.heapSize+=1
+        heapifyMin(rootNode,rootNode.heapSize)
+
+def heapifyMin(rootNode,child_index):
+    parent_index=int((child_index)/2)
+    if child_index>1:
+        if rootNode.customList[child_index]<rootNode.customList[parent_index]:
+            rootNode.customList[child_index],rootNode.customList[parent_index]=rootNode.customList[parent_index],rootNode.customList[child_index]
+            heapifyMin(rootNode,parent_index)
+
