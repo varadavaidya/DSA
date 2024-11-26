@@ -1,0 +1,64 @@
+class MaxHeap:
+    def __init__(self, size):
+        self.values = (size + 1) * [None]
+        self.heapSize = 0
+        self.maxSize = size + 1
+
+def insertNode(rootNode, nodeValue):
+    if rootNode.heapSize + 1 == rootNode.maxSize:
+        return "The Binary Heap is full"
+    rootNode.values[rootNode.heapSize + 1] = nodeValue
+    rootNode.heapSize += 1
+    heapifyTreeInsert(rootNode, rootNode.heapSize)
+    return "The value has been successfully inserted"
+
+def heapifyTreeInsert(rootNode, child_index):
+    parent_index = int((child_index) / 2)
+    if child_index > 1:
+        if rootNode.values[child_index] > rootNode.values[parent_index]:
+            rootNode.values[child_index], rootNode.values[parent_index] = rootNode.values[parent_index], \
+            rootNode.values[child_index]
+            heapifyTreeInsert(rootNode, parent_index)
+
+
+def extractMax(rootNode):
+    rootNode.values[1]=rootNode.values[rootNode.heapSize]
+    rootNode.values[rootNode.heapSize]=None
+    rootNode.heapSize-=1
+    heapifyTreeExtract(rootNode,1)
+
+def heapifyTreeExtract(rootNode,parent_index):
+    if 2*parent_index<=rootNode.heapSize:
+        leftChild=int(parent_index*2)
+        rightChild=int(parent_index*2+1)
+        if rootNode.values[parent_index]>rootNode.values[leftChild] and rootNode.values[parent_index]>rootNode.values[rightChild]:
+            return
+        elif rootNode.values[parent_index]<rootNode.values[leftChild] and rootNode.values[parent_index]>rootNode.values[rightChild]:
+            rootNode.values[parent_index],rootNode.values[leftChild]=rootNode.values[leftChild],rootNode.values[parent_index]
+            heapifyTreeExtract(rootNode, leftChild)
+        elif rootNode.values[parent_index]<rootNode.values[rightChild] and rootNode.values[parent_index]>rootNode.values[leftChild]:
+            rootNode.values[parent_index],rootNode.values[rightChild]=rootNode.values[rightChild],rootNode.values[parent_index]
+            heapifyTreeExtract(rootNode,rightChild)
+        elif rootNode.values[parent_index]<rootNode.values[leftChild] and rootNode.values[parent_index]<rootNode.values[rightChild]:
+            if rootNode.values[leftChild]>rootNode.values[rightChild]:
+                rootNode.values[parent_index], rootNode.values[leftChild] = rootNode.values[leftChild], rootNode.values[
+                    parent_index]
+                heapifyTreeExtract(rootNode, leftChild)
+            else:
+                rootNode.values[parent_index], rootNode.values[rightChild] = rootNode.values[rightChild], \
+                rootNode.values[parent_index]
+                heapifyTreeExtract(rootNode, rightChild)
+
+
+
+newHeap = MaxHeap(6)
+print(newHeap.values)
+insertNode(newHeap,1)
+insertNode(newHeap,2)
+insertNode(newHeap,3)
+insertNode(newHeap,4)
+insertNode(newHeap,5)
+print(insertNode(newHeap,6))
+print(newHeap.values)
+extractMax(newHeap)
+print(newHeap.values)
