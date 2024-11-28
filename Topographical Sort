@@ -1,0 +1,69 @@
+import collections
+from collections import deque
+
+class Graph:
+    def __init__(self,gdict=None):
+        self.gdict=dict()
+
+    def addVertex(self,vertex):
+        if vertex not in self.gdict:
+            self.gdict[vertex]=[]
+
+    def addEdge(self,vertex,edge):
+        if edge not in self.gdict[vertex]:
+            self.gdict[vertex].append(edge)
+
+
+    def removeVertex(self,vertex):
+        if vertex in self.gdict:
+            self.gdict.pop(vertex)
+        else:
+            print("No such Vertex!")
+
+    def removeEdge(self,vertex,edge):
+        if edge in self.gdict[vertex]:
+            self.gdict[vertex].remove(edge)
+
+    def topologicalSortUtil(self,vertex,visited,stack):
+        visited.append(vertex)  # just to check if you have visited
+        for i in self.gdict[vertex]:
+            if i not in visited:
+                self.topologicalSortUtil(i,visited,stack)
+        stack.insert(0,vertex) # stack at last because you add to it only when all pre conditional nodes are visited
+
+    def topologicalSort(self):
+        visited=[]
+        stack=[]
+        for k in self.gdict:
+            if k not in visited:
+                self.topologicalSortUtil(k,visited,stack)
+        print(stack)
+
+
+
+
+
+
+
+custom_graph=Graph()
+print(custom_graph.gdict)
+custom_graph.addVertex("A")
+custom_graph.addVertex("B")
+custom_graph.addVertex("C")
+custom_graph.addVertex("D")
+custom_graph.addVertex("E")
+custom_graph.addVertex("F")
+custom_graph.addVertex("G")
+custom_graph.addVertex("H")
+print(custom_graph.gdict)
+custom_graph.addEdge("A","C")
+custom_graph.addEdge("C","E")
+custom_graph.addEdge("E","H")
+custom_graph.addEdge("E","F")
+custom_graph.addEdge("F","G")
+custom_graph.addEdge("B","C")
+custom_graph.addEdge("B","D")
+custom_graph.addEdge("D","F")
+print(custom_graph.gdict)
+print("....")
+custom_graph.topologicalSort()
