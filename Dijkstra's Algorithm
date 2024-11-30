@@ -1,0 +1,106 @@
+import heapq
+
+#class for edges
+
+class Edge:
+    def __init__(self,weight,start_vertex,target_vertex):
+        self.weight=weight
+        self.start_vertex=start_vertex
+        self.target_vertex=target_vertex
+
+class Node:
+    def __init__(self,name):
+        self.name=name
+        self.visited=False
+        self.predecessor=None      #previous node before we come to this node
+        self.neighbours=[]
+        self.min_distance=float("inf")
+
+    def __lt__(self, other_node):
+        return self.min_distance<other_node.min_distance
+
+    def addEdge(self,destination_vertex,weight):
+        edge=Edge(weight,self,destination_vertex)
+        self.neighbours.append(edge)
+
+
+class Dijkstra:
+    def __init__(self):
+        self.heap=[]
+
+    def calculate(self,start_vertex):
+        start_vertex.min_distance=0
+        heapq.heappush(self.heap,start_vertex)
+        while self.heap:
+            #pop element with lowest distance
+            actual_vertex=heapq.heappop(self.heap)
+            if actual_vertex.visited:
+                continue
+            #consider neightbours
+            for edge in actual_vertex.neighbours:
+                start=edge.start_vertex
+                target=edge.target_vertex
+                new_distance=start.min_distance + edge.weight
+                if new_distance<target.min_distance:
+                    target.min_distance=new_distance
+                    target.predecessor=start
+                    #update the heap
+                    heapq.heappush(self.heap,target)
+            actual_vertex.visited=True
+
+    def get_shortest_path(self,destination_vertex):
+        print(destination_vertex.min_distance)
+        actual_destination_vertex=destination_vertex
+        while actual_destination_vertex is not None:
+            print(actual_destination_vertex.name,end=" ")
+            actual_destination_vertex=actual_destination_vertex.predecessor
+
+
+
+#step1 - create nodes
+nodeA=Node('A')
+nodeB=Node('B')
+nodeC=Node('C')
+nodeD=Node('D')
+nodeE=Node('E')
+nodeF=Node('F')
+nodeG=Node('G')
+nodeH=Node('H')
+
+
+#step2-create edges
+nodeA.addEdge(nodeB,6)
+nodeA.addEdge(nodeD,9)
+nodeA.addEdge(nodeC,10)
+
+nodeB.addEdge(nodeD,5)
+nodeB.addEdge(nodeF,13)
+nodeB.addEdge(nodeE,16)
+
+nodeC.addEdge(nodeD,6)
+nodeC.addEdge(nodeH,5)
+nodeC.addEdge(nodeG,21)
+
+nodeD.addEdge(nodeF,8)
+nodeD.addEdge(nodeH,7)
+
+nodeE.addEdge(nodeG,10)
+
+nodeF.addEdge(nodeE,4)
+nodeF.addEdge(nodeG,12)
+
+nodeH.addEdge(nodeG,14)
+nodeH.addEdge(nodeF,2)
+
+
+
+
+
+algorithm=Dijkstra()
+algorithm.calculate(nodeA)
+algorithm.get_shortest_path(nodeF)
+algorithm.get_shortest_path(nodeG)
+
+
+
+
