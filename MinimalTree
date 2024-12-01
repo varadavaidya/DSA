@@ -1,0 +1,22 @@
+class BSTNode:
+    def __init__(self, data=None, left = None, right= None):
+        self.data = data
+        self.left = left
+        self.right = right
+
+def minimalTree(sortedArray):
+    m=len(sortedArray)
+    if m==0:
+        return
+    elif m==1:
+        rootNode=BSTNode(sortedArray[0])
+        return rootNode
+    else:
+        rootNode=BSTNode(sortedArray[int(m/2)])
+        rootNode.left=minimalTree(sortedArray[:int(m/2)])
+        rootNode.right=minimalTree(sortedArray[(int(m/2)+1):])
+        return rootNode
+
+
+sortedArray = [1,2,3,4,5,6,7,8,9]
+minimalTree(sortedArray)
