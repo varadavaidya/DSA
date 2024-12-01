@@ -1,0 +1,34 @@
+class Graph:
+    def __init__(self, gdict=None):
+        if gdict is None:
+            gdict = {}
+        self.gdict = gdict
+
+    def addEdge(self, vertex, edge):
+        self.gdict[vertex].append(edge)
+
+    def checkRoute(self, startNode, endNode):
+        queue=list(startNode)
+        while queue:
+            current_node=queue.pop(0)
+            for x in self.gdict[current_node]:
+                if x ==endNode:
+                    return True
+                else:
+                    queue.append(x)
+
+
+                      customDict = { "a" : ["c","d", "b"],
+            "b" : ["j"],
+            "c" : ["g"],
+            "d" : [],
+            "e" : ["f", "a"],
+            "f" : ["i"],
+            "g" : ["d", "h"],
+            "h" : [],
+            "i" : [],
+            "j" : []
+               }
+ 
+g = Graph(customDict)
+g.checkRoute("a", "j")
