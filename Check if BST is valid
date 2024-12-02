@@ -1,0 +1,33 @@
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+
+def depth(root):
+    if root is None:
+        return 0
+    return max(depth(root.left),depth(root.right))+1
+
+def isValidBST(root):
+    if root is None:
+        return True
+    if depth(root.left) != depth(root.right):
+        return False
+    else:
+        return isValidBST(root.left) * isValidBST(root.right) == 1
+
+
+
+custom=TreeNode(4)
+custom.right=TreeNode(3)
+custom.left=TreeNode(1)
+custom.right.left=TreeNode(2)
+custom.right.right=TreeNode(5)
+custom.left.left=TreeNode(19)
+custom.left.right=TreeNode(21)
+
+
+
+print(isValidBST(custom))
