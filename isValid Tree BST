@@ -1,0 +1,13 @@
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def isValidBST(root):
+    if root.left is None and root.right is None:
+        return True
+    else:
+        if root.left.val<root.val and root.right.val>root.val:
+            return True * isValidBST(root.left) * isValidBST(root.right) == 1
+        return False
