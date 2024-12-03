@@ -1,0 +1,46 @@
+from collections import deque
+
+class Node:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.right = right
+        self.left = left
+
+def findParent(root,childNodeValue):
+    if root.value== childNodeValue:
+        return
+    if root is None:
+        return
+    else:
+        queue=deque()
+        queue.append(root)
+        while queue:
+            current_node=queue.popleft()
+            if current_node.left is not None:
+                if current_node.left.value==childNodeValue:
+                    return current_node
+            if current_node.right is not None:
+                if current_node.right.value==childNodeValue:
+                    return current_node
+            if current_node.left is not None:
+                if current_node.left.value!=childNodeValue:
+                    if current_node.left is not None:
+                        queue.append(current_node.left)
+            if current_node.right is not None:
+                if current_node.right.value!=childNodeValue:
+                    if current_node.right is not None:
+                        queue.append(current_node.right)
+
+
+
+root=Node(55)
+root.left=Node(44)
+root.right=Node(77)
+root.left.right=Node(99)
+root.left.left=Node(22)
+root.left.right.left=Node(90)
+root.left.right.left.right=Node(33)
+root.left.right.right=Node(95)
+root.left.left.left=Node(35)
+root.left.left.right=Node(88)
+root.left.left.right.left=Node(54)
