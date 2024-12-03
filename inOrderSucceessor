@@ -1,0 +1,53 @@
+class Node:
+	def __init__(self, key):
+		self.data = key
+		self.left = None
+		self.right = None
+
+def insert(node, data):
+   if node is None:
+       return Node(data)
+   else:
+       if data <= node.data:
+           temp = insert(node.left, data)
+           node.left = temp
+           temp.parent = node
+       else:
+           temp = insert(node.right, data)
+           node.right = temp
+           temp.parent = node
+       return node
+
+
+def func(root):
+    if root is None:
+        return ""
+    res = f"{root.data}"
+    return func(root.left) +' '+ res+' ' + func(root.right)
+
+def inOrderSuccessor(root,n):
+    list=[]
+    for x in func(root):
+        if x != '' and x!= ' ':
+            list.append(int(x))
+    ind=list.index(n)
+    return Node(int(list[ind+1])).data
+
+
+
+
+
+
+root=Node(4)
+root.left=Node(2)
+root.right=Node(8)
+root.left.left=Node(1)
+root.left.right=Node(3)
+root.right.left=Node(5)
+root.right.right=Node(9)
+print(func(root))
+
+print(inOrderSuccessor(root,1))
+print(inOrderSuccessor(root,3))
+print(inOrderSuccessor(root,2))
+
