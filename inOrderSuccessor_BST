@@ -1,0 +1,59 @@
+from collections import deque
+class Node:
+	def __init__(self, key):
+		self.data = key
+		self.left = None
+		self.right = None
+
+def insert(node, data):
+   if node is None:
+       return Node(data)
+   else:
+       if data <= node.data:
+           temp = insert(node.left, data)
+           node.left = temp
+           temp.parent = node
+       else:
+           temp = insert(node.right, data)
+           node.right = temp
+           temp.parent = node
+       return node
+
+def findParent(root,nodeValue):
+    if root.data==nodeValue:
+        return None
+    queue=deque()
+    queue.append(root)
+    while queue:
+        current_node=queue.popleft()
+        if current_node.left.data==nodeValue:
+            return current_node
+        elif current_node.right.data==nodeValue:
+            return current_node
+        else:
+            if current_node.left is not None:
+                queue.append(current_node.left)
+            if current_node.right is not None:
+                queue.append(current_node.right)
+
+def inOrderSuccessor(root,n):
+    visited=list()
+    queue=deque()
+    queue.append(root)
+    while queue:
+        current_node=queue.popleft()
+        if current_node is not None:
+            if current_node.data not in visited:
+                visited.append(current_node)
+            index=visited.index(current_node)
+            if current_node.left is not None:
+                visited.insert((index-1),current_node.left)
+            index = visited.index(current_node)
+            if current_node.right is not None:
+                visited.insert((index+1),current_node.right)
+            if current_node.left is not None:
+                queue.append(current_node.left)
+            if current_node.right is not None:
+                queue.append(current_node.right)
+    index=visited.index(n)
+    return visited[index+1]
