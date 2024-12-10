@@ -1,0 +1,54 @@
+# Binary Search Tree
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self,data):
+           if(self.root==None):
+                  self.root=Node(data)
+           else:
+                  self._insert(data,self.root)
+    def _insert(self, data, curNode):
+           if(curNode.data>data):
+                  if(curNode.left==None):
+                         curNode.left=Node(data)
+
+                  else:
+                         self._insert(data,curNode.left)
+           else:
+                   if(curNode.right==None):
+                         curNode.right=Node(data)
+                   else:
+                         self._insert(data,curNode.right)
+    def findParent(self,rootNode,nodeValue):
+        if rootNode.data==nodeValue:
+            return None
+        if rootNode.left is not None:
+            if rootNode.left.data==nodeValue:
+                return rootNode
+            if self.findParent(rootNode.left,nodeValue):
+                return self.findParent(rootNode.left, nodeValue)
+        if rootNode.right is not None:
+            if rootNode.right.data==nodeValue:
+                return rootNode
+            return self.findParent(rootNode.right,nodeValue)
+
+
+    def depthFirstSearchInOrder(self, rootNode, data):
+        if rootNode is None:
+            return
+        else:
+            if rootNode.left is not None:
+                data+self.depthFirstSearchInOrder(rootNode.left,data)
+            if rootNode is not None:
+                data.append(rootNode.data)
+            if rootNode.right is not None:
+                data+self.depthFirstSearchInOrder(rootNode.right,data)
+        return data
