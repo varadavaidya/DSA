@@ -1,0 +1,92 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            self.head.next = self.head
+        else:
+            temp = self.head
+            while temp.next != self.head:
+                temp = temp.next
+            temp.next = new_node
+            new_node.next = self.head
+
+    def print_list(self):
+        nodes = []
+        temp = self.head
+        while temp:
+            nodes.append(str(temp.data))
+            temp = temp.next
+            if temp == self.head:
+                break
+        print(" -> ".join(nodes))
+
+    def is_sorted(self):
+        if self.head is None:
+            return True
+        else:
+            current_node=self.head
+            while current_node.next is not self.head:
+                if current_node.next.data>current_node.data:
+                    pass
+                else:
+                    return False
+                current_node=current_node.next
+            return True
+
+    def insert_into_sorted(self, data):
+        new_node=Node(data)
+        current_node=self.head
+        if self.head is None:
+            self.head=new_node
+            return
+        if data<self.head.data:
+            while current_node.next is not self.head:
+                current_node = current_node.next
+            new_node.next=self.head
+            self.head=new_node
+            current_node.next=new_node
+            return
+        else:
+            tempNode1=current_node
+            tempNode2=tempNode1.next
+            while tempNode1.next is not self.head:
+                if data<tempNode2.data:
+                    tempNode1.next=new_node
+                    new_node.next=tempNode2
+                    break
+                else:
+                    tempNode1=tempNode1.next
+                    if tempNode1.next is self.head and  data>tempNode1.data:
+                        tempNode1.next=new_node
+                        new_node.next=self.head
+                    tempNode2=tempNode2.next
+
+
+
+
+
+
+
+customCSL=CircularLinkedList()
+customCSL.append(1)
+customCSL.append(2)
+customCSL.append(3)
+customCSL.append(4)
+customCSL.append(5)
+customCSL.append(6)
+customCSL.insert_into_sorted(0.5)
+customCSL.insert_into_sorted(3.5)
+customCSL.insert_into_sorted(8)
+customCSL.print_list()
+customCSL1=CircularLinkedList()
+customCSL1.insert_into_sorted(1)
+customCSL1.print_list()
