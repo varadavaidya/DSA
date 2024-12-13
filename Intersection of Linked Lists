@@ -1,0 +1,105 @@
+#   Created by Elshad Karimov on 17/05/2020.
+#   Copyright © 2020 AppMillers. All rights reserved.
+
+from random import randint
+class Node:
+    def __init__(self, value=None):
+        self.value = value
+        self.next = None
+        self.prev = None
+    
+    def __str__(self):
+        return str(self.value)
+
+class LinkedList:
+    def __init__(self, values = None):
+        self.head = None
+        self.tail = None
+
+    def __iter__(self):
+        curNode = self.head
+        while curNode:
+            yield curNode
+            curNode = curNode.next
+    
+    def __str__(self):
+        values = [str(x.value) for x in self]
+        return ' -> '.join(values)
+    
+    def __len__(self):
+        result = 0
+        node = self.head
+        while node:
+            result += 1
+            node = node.next
+        return result
+    
+    def add(self, value):
+        if self.head is None:
+            newNode = Node(value)
+            self.head = newNode
+            self.tail = newNode
+        else:
+            self.tail.next = Node(value)
+            self.tail = self.tail.next
+        return self.tail
+    
+    def generate(self, n, min_value, max_value):
+        self.head = None
+        self.tail = None
+        for i in range(n):
+            self.add(randint(min_value,max_value))
+        return self
+
+customLL = LinkedList()
+a1=customLL.add(1)
+a2=customLL.add(2)
+a3=customLL.add(2)
+a4=customLL.add(2)
+a5=customLL.add(2)
+a6=customLL.add(3)
+a7=customLL.add(4)
+a8=customLL.add(4)
+a9=customLL.add(4)
+a10=customLL.add(5)
+print(customLL)
+customLL2=LinkedList()
+b1=customLL2.add(33)
+b2=customLL2.add(34)
+b3=customLL2.add(35)
+b4=customLL2.add(36)
+b4.next=a8
+b4.next.next=a9
+b4.next.next.next=a10
+
+
+print(customLL2)
+print(len(customLL))
+print(len(customLL2))
+
+def findIntersection(ll1,ll2):
+    m=len(ll1)
+    n=len(ll2)
+    if m>n:
+        currNode1=ll1.head
+        for _ in range(m-n):
+            currNode1=currNode1.next
+        currNode2=ll2.head
+    elif n>m:
+        currNode2=ll2.head
+        for _ in range(n-m):
+            currNode2=currNode2.next
+        currNode1=ll1.head
+    else:
+        currNode1=ll1.head
+        currNode2=ll2.head
+    while currNode1 and currNode2:
+        if currNode1==currNode2:
+            return currNode1.value
+        else:
+            currNode1=currNode1.next
+            currNode2=currNode2.next
+
+
+
+print(findIntersection(customLL2,customLL))
