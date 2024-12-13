@@ -1,0 +1,91 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+
+    def __str__(self):
+        temp_node = self.head
+        result = ''
+        while temp_node is not None:
+            result += str(temp_node.value)
+            if temp_node.next is not None:
+                result += ' -> '
+            temp_node = temp_node.next
+        return result
+
+    def append(self, value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+        self.length += 1
+
+
+def remove_duplicates(ll):
+    for _ in range(ll.length):
+        func(ll)
+    return ll
+
+def func(ll):
+    current_node = ll.head
+    while current_node is not ll.tail:
+        temp1 = current_node.next
+        if current_node.value == temp1.value:
+            temp2 = temp1.next
+            current_node.next = temp2
+            temp1 = None
+            current_node = current_node.next
+        else:
+            current_node = current_node.next
+    return ll
+
+
+ll=LinkedList()
+ll.append(1)
+ll.append(2)
+ll.append(2)
+ll.append(2)
+ll.append(3)
+ll.append(4)
+ll.append(4)
+ll.append(5)
+print(ll)
+'''print(remove_duplicates(ll))'''
+
+def NthLast(ll,m):
+    currentNode=ll.head
+    n=ll.length
+    for _ in range(n-1-m+1):
+        currentNode=currentNode.next
+    return currentNode.value
+
+print(ll.length)
+print(NthLast(ll,2))
+
+def partition(ll,value):
+    ll1=LinkedList()
+    current_node=ll.head
+    l1=0
+    while current_node.value!=value:
+        ll1.append(current_node.value)
+        l1+=1
+        current_node=current_node.next
+    ll2=LinkedList()
+    for _ in range(ll.length-1-l1):
+        ll2.append(current_node.value)
+        current_node=current_node.next
+    print(ll1)
+    print(ll2)
+
+
+partition(ll,3)
