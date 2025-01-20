@@ -1,0 +1,68 @@
+# Definition for singly-linked list.
+class ListNode:
+     def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def addTwoNumbers(self, l1,l2):
+        count=1
+        current_node=l1
+        while current_node.next!=None:
+            count+=1
+            current_node=current_node.next
+        current_node1=l1
+        current_node2=l2
+        sum1=0
+        sum2=0
+        for i in range(count):
+            while current_node1 is not None:
+                if current_node2 is None:
+                    current_node2.val=0
+                else:
+                    sum1= sum1*10+current_node1.val
+                    sum2=sum2*10+current_node2.val
+                    current_node1=current_node1.next
+                    current_node2=current_node2.next
+        sum=sum1+sum2
+        return sum
+
+    @staticmethod
+    def reverse(n):
+        reverse = 0
+        while n != 0:
+            num = n % 10
+            reverse = reverse * 10 + num
+            n = n // 10
+        return reverse
+
+
+
+l1=ListNode(2)
+l1.next=ListNode(4)
+l1.next.next=ListNode(3)
+l2=ListNode(5)
+l2.next=ListNode(6)
+l2.next.next=ListNode(4)
+
+result=Solution()
+print(result.addTwoNumbers(l1,l2))
+
+reverse=result.reverse(result.addTwoNumbers(l1,l2))
+
+class createLL(ListNode):
+    def linklist(self,num):
+        if num<10:
+            return ListNode(num)
+        else:
+            createdLL=ListNode(num%10)
+            createdLL.next=self.linklist((num-(num%10))/10)
+            return createdLL
+
+
+
+print(reverse)
+new=createLL()
+new.linklist(reverse)
+print(new.linklist(reverse).next.next.val)
+
